@@ -1,11 +1,13 @@
 // ==UserScript==
 // @name        VIP视频解析221012
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.3
 // @description  try to take over the world!
-// @author       You
+// @author       福建-兮
 // @match        *://www.iqiyi.com/v_*
 // @match        *://v.qq.com/*
+// @match        *://www.bilibili.com/bangumi/play/*
+// @match        *://www.bilibili.com/video/*
 // @grant        GM.getValue
 // @grant        GM.setValue
 // @connect      *
@@ -41,10 +43,11 @@ document.querySelector("#jxbhttps").onclick = function() {
 */}).toString().split('\n').slice(1, -1).join('\n');
 
 //ul li 列表json 数据
+    //type:0：腾讯、爱奇艺，1：支持哔哩哔哩
     var obj =[
 	{ "name":"178du解析" , "url":"https://jx.178du.com/jx2.php?url=" },
 	{ "name":"PAR解析" , "url":"https://jx.parwix.com:4433/player/?url=" },
-	{ "name":"yemu解析" , "url":"https://www.yemu.xyz/?url=" },
+	{ "name":"夜幕解析" , "url":"https://www.yemu.xyz/?url=" },
 	{ "name":"盖世解析" , "url":"https://www.gai4.com/?url=" },
 
         {"name":"爱豆","url":"https://jx.aidouer.net/?url="},
@@ -60,7 +63,6 @@ document.querySelector("#jxbhttps").onclick = function() {
         {"name": "yparse","url": "https://jx.yparse.com/index.php?url="},
         {"name": "MAO","url": "https://www.mtosz.com/m3u8.php?url="},
         {"name": "M3U8TV","url": "https://jx.m3u8.tv/jiexi/?url="},
-        {"name": "夜幕", "url": "https://www.yemu.xyz/?url="},
         {"name": "BL","url": "https://svip.bljiex.cc/?v="},
         {"name": "七彩","url": "https://www.xymav.com/?url="},
         {"name": "铭人云","url": "https://parse.123mingren.com/?url="},
@@ -115,7 +117,7 @@ style.type="text/css";
 document.head.append(style);
 style.innerHTML=(function () { /*
 #myul{
-width:250px;
+width:500px;
 position:fixed;
 z-index:963540817
 }
@@ -198,14 +200,21 @@ var ul = document.querySelector("#myul");
     }
     getapi();
 
-function jiexi(element){
+function jiexi(element,mydivclass){
 
     //原视频窗口切换成解析视频窗口页面代码
     //element.outerHTML="";
     var div=document.createElement("txpdiv");
     div.id="mydiv";
-    div.style="position:absolute;width:100%;max-width:100%;height:100%;max-height:100%;border:none;outline:none;margin:0;padding:0;background-color:black;display:flex;justify-content:center;align-items:center;flex-direction:column;font-size:xx-large;"
-    element.appendChild(div);
+    if(mydivclass!="")
+    {
+         div.setAttribute("class",mydivclass);
+    }
+    else{
+        div.style="position:absolute;width:100%;max-width:100%;height:100%;max-height:100%;border:none;outline:none;margin:0;padding:0;background-color:black;display:flex;justify-content:center;align-items:center;flex-direction:column;font-size:xx-large;"
+    }
+    //element.appendChild(div);
+    element.replaceChild(div,element.firstElementChild);
     //原视频窗口切换成解析视频窗口页面代码
 
     getapi();
@@ -265,22 +274,29 @@ function jiexi(element){
             }
         },500);
     }
-
     function closeVIPdiv() {
         var tt = setInterval(() => {
             //爱奇艺
             if(document.querySelector("#flashbox")!=null){
                 //alert(document.querySelector("#flashbox").outerHTML);
                 //debugger;
-                document.querySelector("#flashbox").children[0].outerHTML="";
-                jiexi(document.querySelector("#flashbox"));
+                //document.querySelector("#flashbox").children[0].outerHTML="";
+                jiexi(document.querySelector("#flashbox"),"");
                 clearInterval(tt);
             }
             //腾讯
             else if(document.querySelector(".container-main__left")!=null)
             {
-                document.querySelector(".player__wrapper.container-player").children[0].outerHTML=""
-                jiexi(document.querySelector(".player__wrapper.container-player"));
+                //document.querySelector(".player__wrapper.container-player").children[0].outerHTML="";
+                document.querySelector(".player-bottom.player__bottom").outerHTML="";
+                jiexi(document.querySelector(".player__wrapper.container-player"),document.querySelector(".player__wrapper.container-player").children[0].getAttribute("class"));
+                clearInterval(tt);
+            }
+            //bilibili
+            else if(document.querySelector(".bpx-player-primary-area")!=null)
+            {
+                //document.querySelector(".bpx-player-primary-area").children[0].outerHTML=""
+                jiexi(document.querySelector(".bpx-player-primary-area"),document.querySelector(".bpx-player-primary-area").children[0].getAttribute("class"));
                 clearInterval(tt);
             }
             //else if(document.querySelector("#flashbox")!=null){}
