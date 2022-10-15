@@ -40,7 +40,7 @@ function xmlCros(url) {
             } else if (/^content-type: text\/html/m.test(data.responseHeaders)) {
                 var myif = document.createElement('iframe');
                 myif.id = "myiframe";
-                myif.style = "width:100%;heigth:100%;";
+                myif.style = "width:100%;height:1500px;";
                 document.body.append(myif);
                 myif.contentDocument.open();
                 myif.contentDocument.write(data.responseText);
