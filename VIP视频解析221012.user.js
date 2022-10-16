@@ -311,18 +311,20 @@ function jiexi(element,mydivclass,iframestyle){
                     //document.querySelector(".bpx-player-primary-area").children[0].outerHTML=""
                     jiexi(document.querySelector(".bpx-player-primary-area").firstElementChild,document.querySelector(".bpx-player-primary-area").children[0].getAttribute("class"));
                 },2000);
-                
             }
             //芒果TV
-            else if(document.querySelector(".m-playwrap")!=null)
+            else if(document.querySelector(".m-player-h5-new.show-bottom-bar.player-s>container>video")!=null)
             {
                 clearInterval(tt);
                 var mgdiv1 = document.createElement("div");
                 mgdiv1.setAttribute("class","video c-player-video");
+                document.querySelector(".m-player-h5-new.show-bottom-bar.player-s>container>video").pause();
 
-                document.querySelector(".video.c-player-video").parentElement.replaceChild(mgdiv1,document.querySelector(".video.c-player-video"));
-                document.querySelector(".m-playwrap").style="height:600px;width:100%";
-                jiexi(document.querySelector(".video.c-player-video"),document.querySelector(".video.c-player-video").getAttribute("class"),"height:100%");
+                setTimeout(()=>{
+                    document.querySelector(".video.c-player-video").parentElement.replaceChild(mgdiv1,document.querySelector(".video.c-player-video"));
+                    document.querySelector(".m-playwrap").style="height:600px;width:100%";
+                    jiexi(document.querySelector(".video.c-player-video"),document.querySelector(".video.c-player-video").getAttribute("class"),"height:100%");
+                },2000);
             }
             //优酷
             else if(document.querySelector(".video-layer>video")!=null)
