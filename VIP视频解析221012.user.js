@@ -303,11 +303,15 @@ function jiexi(element,mydivclass,iframestyle){
                 jiexi(document.querySelector(".player__wrapper.container-player").firstElementChild,document.querySelector(".player__wrapper.container-player").children[0].getAttribute("class"));
             }
             //bilibili
-            else if(document.querySelector(".bpx-player-primary-area")!=null)
+            else if(document.querySelector(".bpx-player-video-wrap> video")!=null)
             {
                 clearInterval(tt);
-                //document.querySelector(".bpx-player-primary-area").children[0].outerHTML=""
-                jiexi(document.querySelector(".bpx-player-primary-area").firstElementChild,document.querySelector(".bpx-player-primary-area").children[0].getAttribute("class"));
+                document.querySelector(".bpx-player-video-wrap> video").pause();
+                setTimeout(()=>{
+                    //document.querySelector(".bpx-player-primary-area").children[0].outerHTML=""
+                    jiexi(document.querySelector(".bpx-player-primary-area").firstElementChild,document.querySelector(".bpx-player-primary-area").children[0].getAttribute("class"));
+                },2000);
+                
             }
             //芒果TV
             else if(document.querySelector(".m-playwrap")!=null)
@@ -324,12 +328,15 @@ function jiexi(element,mydivclass,iframestyle){
             else if(document.querySelector(".video-layer")!=null)
             {
                 clearInterval(tt);
+                document.querySelector(".video-layer>video").pause();
                 var ykc=document.querySelector("#ykPlayer").children;for(var i=1;i<ykc.length;i++){ykc[i].remove();}
                 var ykdiv = document.createElement("div");
                 ykdiv.setAttribute("class","video-layer");
 
-                document.querySelector(".video-layer").parentElement.replaceChild(ykdiv,document.querySelector(".video-layer"));
-                jiexi(document.querySelector(".video-layer"),document.querySelector(".video-layer").getAttribute("class"));
+                setTimeout(()=>{
+                    document.querySelector(".video-layer").parentElement.replaceChild(ykdiv,document.querySelector(".video-layer"));
+                    jiexi(document.querySelector(".video-layer"),document.querySelector(".video-layer").getAttribute("class"));
+                },2000);
             }
             //else if(document.querySelector("#flashbox")!=null){}
         },500);
