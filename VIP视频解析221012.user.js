@@ -325,7 +325,7 @@ function jiexi(element,mydivclass,iframestyle){
                 jiexi(document.querySelector(".video.c-player-video"),document.querySelector(".video.c-player-video").getAttribute("class"),"height:100%");
             }
             //优酷
-            else if(document.querySelector(".video-layer")!=null)
+            else if(document.querySelector(".video-layer>video")!=null)
             {
                 clearInterval(tt);
                 document.querySelector(".video-layer>video").pause();
