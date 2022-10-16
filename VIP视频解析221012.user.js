@@ -1,13 +1,15 @@
 // ==UserScript==
 // @name        VIP视频解析221012
 // @namespace    http://tampermonkey.net/
-// @version      0.3
+// @version      0.4
 // @description  try to take over the world!
 // @author       福建-兮
 // @match        *://www.iqiyi.com/v_*
 // @match        *://v.qq.com/*
 // @match        *://www.bilibili.com/bangumi/play/*
 // @match        *://www.bilibili.com/video/*
+// @match        *://www.mgtv.com/*
+// @match        *://v.youku.com/*
 // @grant        GM.getValue
 // @grant        GM.setValue
 // @connect      *
@@ -76,7 +78,7 @@ document.querySelector("#jxbhttps").onclick = function() {
         {"name": "m1907", "url": "https://z1.m1907.top/?jx="},
         {"name":"纯净/B站","url":"https://im1907.top/?jx="},
 	{"name":"OK解析","url":"https://okjx.cc/?url="},
-	{"name":"七哥","url":"https://jx.mmkv.cn/tv.php?url="},
+	{"name":"七哥","url":"https://jx.nnxv.cn/tv.php?url="},
 	{"name":"迪奥","url":"https://123.1dior.cn/?url="},
 	{"name":"ckmov","url":"https://www.ckmov.vip/api.php?url="},
 	{"name":"playerjy/B站","url":"https://jx.playerjy.com/?url="},
@@ -200,8 +202,9 @@ var ul = document.querySelector("#myul");
     }
     getapi();
 
-function jiexi(element,mydivclass){
+function jiexi(element,mydivclass,iframestyle){
 
+    //alert(iframestyle);
     //原视频窗口切换成解析视频窗口页面代码
     //element.outerHTML="";
     var div=document.createElement("txpdiv");
@@ -214,7 +217,7 @@ function jiexi(element,mydivclass){
         div.style="position:absolute;width:100%;max-width:100%;height:100%;max-height:100%;border:none;outline:none;margin:0;padding:0;background-color:black;display:flex;justify-content:center;align-items:center;flex-direction:column;font-size:xx-large;"
     }
     //element.appendChild(div);
-    element.replaceChild(div,element.firstElementChild);
+    element.parentElement.replaceChild(div,element);
     //原视频窗口切换成解析视频窗口页面代码
 
     getapi();
@@ -222,7 +225,14 @@ function jiexi(element,mydivclass){
     var para=document.createElement("iframe");
     para.id="videoiframe";
     para.src=api;
-    para.style="position:absolute;width:100%;max-width:100%;height:100%;max-height:100%;border:none;outline:none;margin:0;padding:0;";
+    if(iframestyle==undefined)
+    {
+        para.style="position:absolute;width:100%;max-width:100%;height:100%;max-height:100%;border:none;outline:none;margin:0;padding:0;";
+    }
+    else{
+         para.style=iframestyle;
+    }
+
     para.marginwidth="0";
     para.marginheight="0";
     para.width="100%";
@@ -278,26 +288,48 @@ function jiexi(element,mydivclass){
         var tt = setInterval(() => {
             //爱奇艺
             if(document.querySelector("#flashbox")!=null){
+                clearInterval(tt);
                 //alert(document.querySelector("#flashbox").outerHTML);
                 //debugger;
                 //document.querySelector("#flashbox").children[0].outerHTML="";
-                jiexi(document.querySelector("#flashbox"),"");
-                clearInterval(tt);
+                jiexi(document.querySelector("#flashbox").firstElementChild,"");
             }
             //腾讯
             else if(document.querySelector(".container-main__left")!=null)
             {
+                clearInterval(tt);
                 //document.querySelector(".player__wrapper.container-player").children[0].outerHTML="";
                 document.querySelector(".player-bottom.player__bottom").outerHTML="";
-                jiexi(document.querySelector(".player__wrapper.container-player"),document.querySelector(".player__wrapper.container-player").children[0].getAttribute("class"));
-                clearInterval(tt);
+                jiexi(document.querySelector(".player__wrapper.container-player").firstElementChild,document.querySelector(".player__wrapper.container-player").children[0].getAttribute("class"));
             }
             //bilibili
             else if(document.querySelector(".bpx-player-primary-area")!=null)
             {
-                //document.querySelector(".bpx-player-primary-area").children[0].outerHTML=""
-                jiexi(document.querySelector(".bpx-player-primary-area"),document.querySelector(".bpx-player-primary-area").children[0].getAttribute("class"));
                 clearInterval(tt);
+                //document.querySelector(".bpx-player-primary-area").children[0].outerHTML=""
+                jiexi(document.querySelector(".bpx-player-primary-area").firstElementChild,document.querySelector(".bpx-player-primary-area").children[0].getAttribute("class"));
+            }
+            //芒果TV
+            else if(document.querySelector(".m-playwrap")!=null)
+            {
+                clearInterval(tt);
+                var mgdiv1 = document.createElement("div");
+                mgdiv1.setAttribute("class","video c-player-video");
+
+                document.querySelector(".video.c-player-video").parentElement.replaceChild(mgdiv1,document.querySelector(".video.c-player-video"));
+                document.querySelector(".m-playwrap").style="height:600px;width:100%";
+                jiexi(document.querySelector(".video.c-player-video"),document.querySelector(".video.c-player-video").getAttribute("class"),"height:100%");
+            }
+            //优酷
+            else if(document.querySelector(".video-layer")!=null)
+            {
+                clearInterval(tt);
+                var ykc=document.querySelector("#ykPlayer").children;for(var i=1;i<ykc.length;i++){ykc[i].remove();}
+                var ykdiv = document.createElement("div");
+                ykdiv.setAttribute("class","video-layer");
+
+                document.querySelector(".video-layer").parentElement.replaceChild(ykdiv,document.querySelector(".video-layer"));
+                jiexi(document.querySelector(".video-layer"),document.querySelector(".video-layer").getAttribute("class"));
             }
             //else if(document.querySelector("#flashbox")!=null){}
         },500);
