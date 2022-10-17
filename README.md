@@ -114,3 +114,54 @@ function xmlCros(url) {
     // Your code here...
 })();
 ~~~
+~~~
+// ==UserScript==
+// @name         按键F视频全屏fullscreen
+// @namespace    https://github.com/rasso1/u-Youtube
+// @version      1.0
+// @description  任意网站,按F键视频全屏
+// @author       ok!
+// @match        https://*/*
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=jyu01.com
+// @grant        none
+// ==/UserScript==
+ 
+(function() {
+    'use strict';
+    var doc_s;
+    doc_s = window.document;
+    doc_s.onkeydown = key_down;
+ 
+    function key_down(e){
+        //document.addEventListener("keydown", function(e) {
+        //v_elem = document.querySelector("#dplayer > div.dplayer-video-wrap");
+      if (document.activeElement.id != "") {
+           return;}
+ 
+     else{
+            if (e.keyCode == 70) {//video_elem = document.querySelector("#dplayer > div.dplayer-video-wrap > video");
+                e.preventDefault();
+                       //alert("f pressed");
+                if (!document.fullscreenElement) {
+                    if(document.querySelector("video").requestFullscreen){
+                        document.querySelector("video").webkitRequestFullScreen()
+ 
+                        document.querySelector("video").requestFullscreen();
+                    }else if(document.querySelector("video").webkitRequestFullScreen){
+ 
+                        document.querySelector("video").webkitRequestFullScreen();
+                    }else if(document.querySelector("video").mozRequestFullScreen){
+                        document.querySelector("video").mozRequestFullScreen();
+                    }else{
+                        document.querySelector("video").msRequestFullscreen();
+                    }
+ 
+                }
+                else{document.webkitCancelFullScreen();}
+ 
+            }
+        }
+    }
+ 
+    })();
+~~~
