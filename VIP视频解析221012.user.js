@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name        VIP视频解析221012
 // @namespace    http://tampermonkey.net/
-// @version      0.4
+// @version      0.5
 // @description  try to take over the world!
 // @author       福建-兮
 // @match        *://www.iqiyi.com/v_*
@@ -313,15 +313,15 @@ function jiexi(element,mydivclass,iframestyle){
                 },2000);
             }
             //芒果TV
-            else if(document.querySelector(".m-player-h5-new.show-bottom-bar.player-s>container>video")!=null)
+            else if(document.querySelector("#mgtv-player-wrap")!=null)
             {
                 clearInterval(tt);
-                var mgdiv1 = document.createElement("div");
-                mgdiv1.setAttribute("class","video c-player-video");
-                document.querySelector(".m-player-h5-new.show-bottom-bar.player-s>container>video").pause();
-
+                //document.querySelector(".video.c-player-video").pause();
+                //document.querySelector("#mgtv-player-wrap container video").pause();
                 setTimeout(()=>{
-                    document.querySelector(".video.c-player-video").parentElement.replaceChild(mgdiv1,document.querySelector(".video.c-player-video"));
+                    var mgdiv1 = document.createElement("div");
+                    mgdiv1.setAttribute("class","video c-player-video");
+                    document.querySelector("#mgtv-player-wrap").parentElement.replaceChild(mgdiv1,document.querySelector("#mgtv-player-wrap"));
                     document.querySelector(".m-playwrap").style="height:600px;width:100%";
                     jiexi(document.querySelector(".video.c-player-video"),document.querySelector(".video.c-player-video").getAttribute("class"),"height:100%");
                 },2000);
