@@ -169,4 +169,4 @@ function xmlCros(url) {
 # icon 获取方式
 1、https://www.google.com/s2/favicons?sz=64&domain=www.bilibili.com
 
-2、‘<link rel="shortcut icon" href="https://www.bilibili.com/favicon.ico?v=1">’
+2、\<link rel="shortcut icon" href="https://www.bilibili.com/favicon.ico?v=1"\>
