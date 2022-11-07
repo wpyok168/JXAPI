@@ -169,4 +169,23 @@ function xmlCros(url) {
 # icon 获取方式
 1、https://www.google.com/s2/favicons?sz=64&domain=www.bilibili.com
 
-2、\<link rel="shortcut icon" href="https://www.bilibili.com/favicon.ico?v=1"\>
+2、\<link rel="shortcut icon" href="https://www.bilibili.com/favicon.ico?v=1">
+
+# 下载 https://blog.csdn.net/wkyseo/article/details/78232485
+
+~~~
+function downLoad(imgurl) {
+    alert(imgurl);
+    var x = new XMLHttpRequest();
+    x.open("GET", imgurl, true);
+    x.responseType = 'blob';
+    x.onload = function (e) {
+        var url = window.URL.createObjectURL(x.response)
+        var a = document.createElement('a');
+        a.href = url
+        a.download = ''
+        a.click()
+    }
+    x.send();
+}
+~~~
