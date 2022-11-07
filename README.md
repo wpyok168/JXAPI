@@ -189,3 +189,27 @@ function downLoad(imgurl) {
     x.send();
 }
 ~~~
+~~~
+let url = window.URL || window.webkitURL;
+    let xhr = new XMLHttpRequest();
+    xhr.open(method, url, [,async=true,]);
+    xhr.responseType = 'blob' ; //arraybuffer也可以
+    xhr.ontimeout = ()=>{};
+    xhr.onreadystatechange=()=>{
+      if(xhr.readystate === 4) {
+        if(xhr.status =200) {  
+          let res = xhr.response;  //不是responseText。
+          /*
+		  *最近看别人的代码，发现可以这么写
+		  * let res = 'response' in xhr ? xhr.response : xhr.responseText
+		  * 厉害！！！
+		  */
+          let blob = new Blob([res], {type: 'video/mpeg4'});
+          ....
+          ....
+          videoEle.src = url.createObjectURL(blob);
+          //Videos on Android do not play when the src is set as a blob via create URL,　在移动端有兼容问题
+        };
+      }
+    };
+~~~
