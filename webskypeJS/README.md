@@ -51,3 +51,13 @@ Run();
     // Your code here...
 })();
 ~~~~~~~~
+
+~~~~~~~~~
+async function Run() {
+    let response = await fetch("http://cid.cngoogle.cf:8899/getcid/?iids=727694511367451409112002706078034229665380495949478100566471760");
+    debugger
+    let res = await response.text(); //response.json();
+    alert(res); //res 中文会乱码
+}
+Run();
+~~~~~~~~~
