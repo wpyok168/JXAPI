@@ -143,7 +143,7 @@ function inputiid(){
 //=======================
 function lego(res){
     if(res.indexOf("NeverObtained")==-1){
-        debugger
+        //debugger
         f9=true;
         var interval1 = setInterval(function() {
             document.querySelectorAll("button").forEach(ev=>{
@@ -160,6 +160,11 @@ function lego(res){
         })
         GM_setClipboard(res.replace("</br>","\r\n"));
         setTimeout(()=>{
+            document.querySelectorAll("button").forEach(ev=>{
+                if(ev.getAttribute("aria-label")=="关闭"){
+                    ev.click();
+                }
+            });
             alert(res.replace("</br>","\r\n"));
         },2000);
 
@@ -845,18 +850,20 @@ function xmlCros1(url,_data) {
                 } else if (/^content-type: text\/html/m.test(outdata.responseHeaders)) {
                     //NeverObtained
                     if(outdata.responseText.indexOf("NeverObtained")==-1){
-                        debugger;
                         document.querySelectorAll("button").forEach(ev=>{
                             if(ev.getAttribute("aria-label")=="结束通话"){
                                 reclll(ev,"结束通话");
                                 ev.click();
                             }
-                            if(ev.getAttribute("aria-label")=="关闭"){
-                                ev.click();
-                            }
                         });
                         GM_setClipboard(outdata.responseText.replace("</br>","\r\n"));
                         setTimeout(()=>{
+                            document.querySelectorAll("button").forEach(ev=>{
+                                debugger;
+                                if(ev.getAttribute("aria-label")=="关闭"){
+                                    ev.click();
+                                }
+                            });
                             alert(outdata.responseText.replace("</br>","\r\n"));
                         },2000);
                     }
